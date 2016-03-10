@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="author" content="Patrick Uiterwijk">
+<meta name="description" content="">
+<title>Fedora wiki and trac spam and first DWF - Patrick Uiterwijk</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"ae0a7d704f7fcb7f8e0f7e8e1fc735f9",petok:"cdeb0cb71bd3328f6a9685b913986dc0ade9f979-1457634638-1800",zone:"uiterwijk.org",rocket:"0",apps:{"ga_key":{"ua":"UA-26034013-1","ga_bs":"2"}},sha2test:0}];!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=fb690a32f5/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link href="http://feeds.feedburner.com/PatrickUiterwijk" rel="alternate" title="Patrick Uiterwijk" type="application/atom+xml"/>
+<link rel="canonical" href="http://patrick.uiterwijk.org/2016/03/09/fedora-spam-dwf-2016-89000/">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:400,700|PT+Serif:400,700,400italic" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="/files/assets/css/general.css" rel="stylesheet">
+<link href="/files/assets/css/syntax.css" rel="stylesheet">
+<link rel="openid.server" href="https://id.fedoraproject.org/openid/"/>
+<link rel="openid.delegate" href="http://puiterwijk.id.fedoraproject.org/"/>
+<link rel="openid2.provider" href="https://id.fedoraproject.org/openid/"/>
+<link rel="openid2.local_id" href="http://puiterwijk.id.fedoraproject.org/"/>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-26034013-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+(function(b){(function(a){"__CF"in b&&"DJS"in b.__CF?b.__CF.DJS.push(a):"addEventListener"in b?b.addEventListener("load",a,!1):b.attachEvent("onload",a)})(function(){"FB"in b&&"Event"in FB&&"subscribe"in FB.Event&&(FB.Event.subscribe("edge.create",function(a){_gaq.push(["_trackSocial","facebook","like",a])}),FB.Event.subscribe("edge.remove",function(a){_gaq.push(["_trackSocial","facebook","unlike",a])}),FB.Event.subscribe("message.send",function(a){_gaq.push(["_trackSocial","facebook","send",a])}));"twttr"in b&&"events"in twttr&&"bind"in twttr.events&&twttr.events.bind("tweet",function(a){if(a){var b;if(a.target&&a.target.nodeName=="IFRAME")a:{if(a=a.target.src){a=a.split("#")[0].match(/[^?=&]+=([^&]*)?/g);b=0;for(var c;c=a[b];++b)if(c.indexOf("url")===0){b=unescape(c.split("=")[1]);break a}}b=void 0}_gaq.push(["_trackSocial","twitter","tweet",b])}})})})(window);
+/* ]]> */
+</script>
+</head>
+<body>
+<nav>
+<div class="wrapper">
+<ul>
+<li><a href="/">Home</a></li>
+<li><a href="/blog/">Blog</a></li>
+<li><a href="/open-source/">Open Source</a></li>
+<li><a href="/presentations/">Presentations</a></li>
+<li id="rss-feed"><a href="http://feeds.feedburner.com/PatrickUiterwijk" class="fa fa-rss-square fa-2x"></a><li>
+</ul>
+</div>
+</nav>
+<div class="wrapper" id="main">
+<article>
+<h1 id="fedora-wiki-and-trac-spam-and-first-dwf">Fedora wiki and trac spam and first DWF</h1>
+<p>As some people might have noticed, Fedora has had some issues with spam on our
+<a href="https://fedoraproject.org/wiki/">Wiki</a> and <a href="https://fedorahosted.org/">Trac instances</a>.</p>
+<p>This spam attack is a targeted attack, since they had to create a lot of new users,
+and not only did they work with the <a href="https://github.com/fedora-infra/fas/">Fedora Account System (FAS)</a>,
+but they also worked with our Contributor Agreement signing process, and everytime I
+edited one small thing to stop them, they’d edit their stuff to work with it.</p>
+<p>We had been doubting our captcha for a while now, but changing the captcha system entirely
+was quite hard since the obvious candidates all would not suit us because they’re not open
+source or they don’t offer a sound version of the CAPTCHA.</p>
+<h2 id="the-issue">The issue</h2>
+<p>After writing lots of scripts to automatically detect and delete the spam (which I’ll
+open source soon) since we hoped that if we’d do that they’d stop, they still didn’t stop
+(if anything, they only increased their rate), I looked into why they were able to create
+hundreds of accounts per day.</p>
+<p>When looking through the logs, I saw that they were creating the accounts in bursts.
+So they would create lots of accounts within a few minutes, then wait a while, before again
+creating lots of accounts within a few minutes.
+With this information I dove into our <a href="https://fedorahosted.org/tgcaptcha2/">captcha system</a>,
+and I discovered that what it does is it makes the client submit both the captcha value that
+the user entered, and an encrypted version of the correct captcha.
+It would then decrypt the correct captcha and check whether it had the same plaintext value
+as the user just entered, and also whether the captcha hadn’t expired yet, which happens 5
+minutes after generation.</p>
+<p>At this point I started thinking that they probably just stored an encrypted version and the
+correct answer, and just submitted them together, which means that it would match.
+This also matches the bursts, because after 5 minutes the captcha would expire and they would
+need to solve a new captcha, and they were able to again create lots of accounts in a burst.
+After adding some logging code, I discovered that this is indeed what they had been doing.</p>
+<p>Since we now have <a href="https://github.com/distributedweaknessfiling/DWF-Documentation">Distributed Weakness Filing</a>
+and I am a <a href="https://github.com/distributedweaknessfiling/DNA-Registry/blob/master/DNA-Registry.csv">DWF Number Authority</a>,
+I decide to issue to very first DWF from my block to this issue: DWF-2016-89000.</p>
+<p>What I ended up doing to fix this was adding a <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">nonce</a>
+system to the captcha library, to make sure each captcha is only used once.
+This also required patches to FAS, to make sure that the captcha is stored in the database so
+it works in multi-server setups, but those are now out: TGCaptcha2 0.3.0 and FAS2 0.11.0 have
+come to be!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>At this moment, this issue is fixed, and I’m hoping again that this will stop the spammers,
+but if not, we’ll continue the arms race, and I get to look into things like machine learning…</p>
+</article>
+<hr/>
+</div>
+<footer>
+<div class="wrapper">
+<hr/>
+<ul>
+<li><a href="/contact/">Contact info</a></li>
+<li><a href="/files/global/gpg_key.asc">PGP</a></li>
+<li><a href="/files/global/id_rsa.pub.asc">SSH</a></li>
+<li><a href="/pki/">PKI</a></li>
+<li><a href="/files/global/deploy.sh">Deploy</a></li>
+<li><a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> by Dave Gandy</li>
+<li>Layout by the awesome <a href="http://joelcox.nl">Jo&euml;l Cox</a></li>
+</ul>
+</div>
+<div class="wrapper">
+Last rebuild: 09 Mar 2016 *
+</div>
+</footer>
+ 
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://stats.puiterwijk.org/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="https://stats.puiterwijk.org/piwik.php?idsite=1&rec=1&url=/2016/03/09/fedora-spam-dwf-2016-89000/" style="border:0;" alt=""/></p></noscript>
+ 
+</body>
+</html>
