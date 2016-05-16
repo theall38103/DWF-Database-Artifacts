@@ -211,7 +211,7 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ## CWE
 
-1.0: The CWE ID, or string of vulnerabilities that describe this issue. SUGGESTED
+1.0: The CWE ID in the form "CWE-N" or a string of vulnerabilities that describe this issue, comma seperated (e.g. "CWE-N,CWE-N2" or a text string describing the type of vulnerability if no CWE is available to describe it (e.g. "Intersection vulnerability of permissions provided and expected between different components X and Y". Please note that if you cannot describe the vulnerability using CWE or a text description it is highly unlikely we'll assign a CVE, let alone include it in the DWF database. SUGGESTED
 
 ## CVSSv2
 
