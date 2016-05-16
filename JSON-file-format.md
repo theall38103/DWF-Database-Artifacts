@@ -157,7 +157,7 @@
 
 # Minimum file
 
-An example of a minimum file. Please note that the AFFECTS data is not MANDATORY but only SUGGESTED, however an entry would be unlikely to be included without some AFFECTS data unless special circumstances apply. The description is required for PUBLIC entries (that is to say published in our database), please consult our writing guidelines, alteratively if sufficient other data (AFFECTS, CVSSv2 or CVSSv3 scoring data and so on) is provided the DWF can write the entry (indeed it is our hope to automate descriptions based on data for the vulnerability).
+An example of a minimum file. Please note that the AFFECTS data is not MANDATORY but only SUGGESTED, however an entry would be unlikely to be included without some AFFECTS data unless special circumstances apply. The description is required for PUBLIC entries (that is to say published in our database), please consult our writing guidelines, alteratively if sufficient other data (AFFECTS, CVSSv2 or CVSSv3 scoring data and so on) is provided the DWF can write the entry (indeed it is our hope to automate descriptions based on data for the vulnerability). Simply search for "MINIMUM" to find the descriptions for the various components needed to make a minimal entry.
 
 ```
 {
@@ -187,15 +187,15 @@ An example of a minimum file. Please note that the AFFECTS data is not MANDATORY
 
 # VERSION
 
-1.0: The JSON file has various information sections (the global section, the DWF section, etc.) and some of these sections can have subsections (the CVSSv2, CVSSv3, AFFECTED data and so on). The format of these sections may be updated to include new information or change how information is presented. In order to signal what version of data formatting is in use the JSON file has a global version, and sections and subsections can have their own versions. This means that data formatted in old formats (e.g. the 1.0 definition) can continue to exist in a file with other sections that have been updated (e.g. to 1.1). The version of formatting used in a section is the same as defined in it's parent section unless otherwise explicitly stated (so until there is an update to the 1.0 format all data can be assumed to be in the 1.0 format). 
+1.0: The JSON file has various information sections (the global section, the DWF section, etc.) and some of these sections can have subsections (the CVSSv2, CVSSv3, AFFECTED data and so on). The format of these sections may be updated to include new information or change how information is presented. In order to signal what version of data formatting is in use the JSON file has a global version, and sections and subsections can have their own versions. This means that data formatted in old formats (e.g. the 1.0 definition) can continue to exist in a file with other sections that have been updated (e.g. to 1.1). The version of formatting used in a section is the same as defined in it's parent section unless otherwise explicitly stated (so until there is an update to the 1.0 format all data can be assumed to be in the 1.0 format). Required for the MINIMUM entry. 
 
 # UPDATED
 
-1.0: The latest date and time (in ISO 8601 format) that this information was updated. MANDATORY
+1.0: The latest date and time (in ISO 8601 format) that this information was updated. Needed for the MINIMUM entry. MANDATORY
 
 # SERIAL
 
-1.0: An integer serial number for the entry that starts at "1" is incremented by 1 for every update commited. MANDATORY
+1.0: An integer serial number for the entry that starts at "1" is incremented by 1 for every update commited. Needed for the MINIMUM entry. MANDATORY
 
 # DWF
 
@@ -207,11 +207,11 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ## CVE_ID
 
-1.0: The CVE number assigned to this issue. MANDATORY
+1.0: The CVE number assigned to this issue. Needed for the MINIMUM entry. MANDATORY
 
 ## CWE
 
-1.0: The CWE ID in the form "CWE-N" or a string of vulnerabilities that describe this issue, comma seperated (e.g. "CWE-N,CWE-N2" or a text string describing the type of vulnerability if no CWE is available to describe it (e.g. "Intersection vulnerability of permissions provided and expected between different components X and Y". Please note that if you cannot describe the vulnerability using CWE or a text description it is highly unlikely we'll assign a CVE, let alone include it in the DWF database. SUGGESTED
+1.0: The CWE ID in the form "CWE-N" or a string of vulnerabilities that describe this issue, comma seperated (e.g. "CWE-N,CWE-N2" or a text string describing the type of vulnerability if no CWE is available to describe it (e.g. "Intersection vulnerability of permissions provided and expected between different components X and Y". Please note that if you cannot describe the vulnerability using CWE or a text description it is highly unlikely we'll assign a CVE, let alone include it in the DWF database. Needed for the MINIMUM entry. SUGGESTED
 
 ## CVSSv2
 
@@ -379,7 +379,7 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ## AFFECTS
 
-1.0: An array of one or more entries. Each entry has self identifying information. Please note that this data may also exist under the Vendor hierarchy for specific vendor and vendor/product combinations. This global entry is meant to reflect the original "upstream" version vulnerability information. MANDATORY
+1.0: An array of one or more entries. Each entry has self identifying information. Please note that this data may also exist under the Vendor hierarchy for specific vendor and vendor/product combinations. This global entry is meant to reflect the original "upstream" version vulnerability information. Needed for the MINIMUM entry. MANDATORY
 
 ### VERSION
 
@@ -391,7 +391,7 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ### PRODUCT
 
-1.0: The product name. SUGGESTED
+1.0: The product name. Needed for the MINIMUM entry. SUGGESTED
 
 ### CPE
 
@@ -399,11 +399,11 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ### AFFECTED
 
-1.0: The version of the product that is vulnerable. This is an array of one or more values, the values can be a version number, or a version number with ">" (greather then, not including the version specified), "<" (less then, not including the version specified), ">=" (greather then or equal to, so including the version specified) or "<=" (less then or equal to, so including the version specified) prepended to it. SUGGESTED
+1.0: The version of the product that is vulnerable. This is an array of one or more values, the values can be a version number, or a version number with ">" (greather then, not including the version specified), "<" (less then, not including the version specified), ">=" (greather then or equal to, so including the version specified) or "<=" (less then or equal to, so including the version specified) prepended to it. Needed for the MINIMUM entry. SUGGESTED
 
 ### FIXEDIN
 
-1.0: The version of the product that is fixed. This is an array of one or more values, the values can be a version number, or a version number with ">" (greather then, not including the version specified), "<" (less then, not including the version specified), ">=" (greather then or equal to, so including the version specified) or "<=" (less then or equal to, so including the version specified) prepended to it. SUGGESTED
+1.0: The version of the product that is fixed. This is an array of one or more values, the values can be a version number, or a version number with ">" (greather then, not including the version specified), "<" (less then, not including the version specified), ">=" (greather then or equal to, so including the version specified) or "<=" (less then or equal to, so including the version specified) prepended to it. Needed for the MINIMUM entry. SUGGESTED
 
 ### NOTES
 
@@ -417,11 +417,11 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 [Vendor name] [product name] version [version info] is vulnerable to a [flaw type] in the [component] resulting [some impact]. 
 ```
 
-The description, or sufficient data to write one is required. MANDATORY
+The description, or sufficient data to write one is required. Needed for the MINIMUM entry. MANDATORY
 
 ## SOURCES
 
-1.0: An array of one or more entries. Each entry has self identifying information. Please note that this data may also exist under the Vendor hierarchy for specific vendor and vendor/product combinations. This global entry is meant to reflect the original "upstream" version vulnerability information.
+1.0: An array of one or more entries. Each entry has self identifying information. Please note that this data may also exist under the Vendor hierarchy for specific vendor and vendor/product combinations. This global entry is meant to reflect the original "upstream" version vulnerability information. Needed for the MINIMUM entry. MANDATORY
 
 ### VERSION
 
@@ -441,7 +441,7 @@ The description, or sufficient data to write one is required. MANDATORY
 
 ### URL
 
-1.0: The URL for the sources, must be a valid URL, or may be an email address (e.g. if the file is sent directly to us and not available on a web server). MANDATORY
+1.0: The URL for the sources, must be a valid URL, or may be an email address (e.g. if the file is sent directly to us and not available on a web server). Needed for the MINIMUM entry. MANDATORY
 
 ### IMPORTTIME
 
@@ -449,7 +449,7 @@ The description, or sufficient data to write one is required. MANDATORY
 
 ### LOCALNAME
 
-1.0: The local name (file or directory) of the artifact, relative to directory for this CVE. MANDATORY
+1.0: The local name (file or directory) of the artifact, relative to directory for this CVE. Needed for the MINIMUM entry. MANDATORY
 
 ### NOTES
 
