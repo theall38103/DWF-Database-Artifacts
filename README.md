@@ -1,17 +1,14 @@
 # DWF Database Artifacts
 
+The DWF Database rtifacts contains additional information about vulnerabilities. Specifcially there is a JSON file with machine/human readable data, and then one or more associatyed artifacts (e.g. a security report/advisory, vopy of a bug report, reproducer, etc.). 
+
 ## DWF Database Artifacts format
 
-## DWF Database Artifacts DWF-YEAR-NNNNNNN.json format
+Database artifacts should be left in their original state if possible (e.g. raw copy of a web page, PDF, etc.). Artifacts may be optionally tar'ed and/or compressed (e.g. a web page with images may be stored as a compressed tarball). 
 
-### Hierarchies
+## Dangerous artifacts
 
-The JSON file contains 4 main hierarchies:
-
-* DWF
-* Community
-* Experimental
-* Vendor
+Due to the nature of the data being stored some of it may be potentially dangerous (e.g. weaponized exploit code embedded in an HTML file or image file). In this case the item should be compressed using "zip" with a password set, the password MUST be set to "infected" (this is a relatively standard practice across the AV industry).  
 
 ## A note on the DWF Project data and the Apache License
 
