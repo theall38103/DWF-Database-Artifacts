@@ -215,7 +215,7 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ## CVSSv2
 
-1.0: The CVSSv2 scoring data, split up into Base Metrics Group (BM), Temporal Metrics Group (TM) and Environmental Metrics Group (EM). OPTIONAL
+1.0: The CVSSv2 (https://www.first.org/cvss/v2/guide) scoring data, split up into Base Metrics Group (BM), Temporal Metrics Group (TM) and Environmental Metrics Group (EM). OPTIONAL
 
 ### VERSION
 
@@ -319,7 +319,7 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ## CVSSv3
 
-1.0: The CVSSv3 scoring data. OPTIONAL
+1.0: The CVSSv3 (https://www.first.org/cvss/specification-document) scoring data. OPTIONAL
 
 ### VERSION
 
@@ -331,35 +331,35 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 #### AV
 
-1.0: The Attack Vector
+1.0: The Attack Vector, must be "N", "A", "L" or "P". OPTIONAL
 
 #### AC
 
-1.0: The Attack Complexity
+1.0: The Attack Complexity, must be "L" or "H". OPTIONAL
 
 #### PR
 
-1.0: The Privileges Required
+1.0: The Privileges Required, must be "N", "L" or "H". OPTIONAL
 
 #### UI
 
-1.0: The User Interaction
+1.0: The User Interaction, must be"N", or "R". OPTIONAL
 
 #### S
 
-1.0: The Scope
+1.0: The Scope, must be "U", or "C". OPTIONAL
 
 #### C
 
-1.0: The  Confidentiality Impact
+1.0: The Confidentiality Impact, must be "H", "L" or "N". OPTIONAL
 
 #### I
 
-1.0: The Integrity Impact
+1.0: The Integrity Impact, must be "H", "L" or "N". OPTIONAL
 
 #### A
 
-1.0: The Availability Impact
+1.0: The Availability Impact, must be "H", "L" or "N". OPTIONAL
 
 #### SCORE
 
@@ -373,9 +373,65 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 1.0: The Temporal Metric Group scoring information. OPTIONAL
 
+#### E
+
+1.0: Exploit Code Maturity, must be "X", "H", "F", "P" and "U". OPTIONAL
+
+#### RL
+
+1.0: Remediation Level, must be "X", "U", "W", "T" and "O". OPTIONAL
+
+#### RC
+
+1.0: Report Confidence, must be "X", "C", "R" and "U". OPTIONAL
+
 ### EM
 
 1.0: The Environmental Metric Group scoring information. OPTIONAL
+
+#### CR
+
+1.0: Security Requirements Confidentiality, must be "X", "H", "M" or "L". OPTIONAL
+
+#### IR
+
+1.0: Security Requirements Integrity, must be "X", "H", "M" or "L". OPTIONAL
+
+#### AR
+
+1.0: Security Requirements Availability, must be "X", "H", "M" or "L". OPTIONAL
+
+#### MAV
+
+1.0: The Modified Attack Vector, must be "N", "A", "L" or "P". OPTIONAL
+
+#### MAC
+
+1.0: The Modified Attack Complexity, must be "L" or "H". OPTIONAL
+
+#### MPR
+
+1.0: The Modified Privileges Required, must be "N", "L" or "H". OPTIONAL
+
+#### MUI
+
+1.0: The Modified User Interaction, must be "N", or "R". OPTIONAL
+
+#### MS
+
+1.0: The Modified Scope, must be "U", or "C". OPTIONAL
+
+#### MC
+
+1.0: The Modified Confidentiality Impact, must be "H", "L" or "N". OPTIONAL
+
+#### MI
+
+1.0: The Modified Integrity Impact, must be "H", "L" or "N". OPTIONAL
+
+#### MA
+
+1.0: The Modified Availability Impact, must be "H", "L" or "N". OPTIONAL
 
 ## AFFECTS
 
