@@ -25,6 +25,7 @@
   "DWF": {
     "VERSION": "1.0",
     "CVE_ID": "CVE-YEAR-NNNNNNN",
+    "CWE": "X",
     "CVSSv2": {
       "VERSION": "1.0",
       "BM": {
@@ -156,6 +157,8 @@
 
 # Minimum file
 
+An example of a minimum file. Please note that the AFFECTS data is not MANDATORY but only SUGGESTED, however an entry would be unlikely to be included without some AFFECTS data unless special circumstances apply. The description is required for PUBLIC entries (that is to say published in our database), please consult our writing guidelines, alteratively if sufficient other data (AFFECTS, CVSSv2 or CVSSv3 scoring data and so on) is provided the DWF can write the entry (indeed it is our hope to automate descriptions based on data for the vulnerability).
+
 ```
 {
   "VERSION": "1.0",
@@ -163,6 +166,7 @@
   "SERIAL": "INT",
   "DWF": {
     "CVE_ID": "CVE-YEAR-NNNNNNN",
+    "CWE": "X",
     "AFFECTS": [
       {
         "PRODUCT": "string",
@@ -204,6 +208,10 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 ## CVE_ID
 
 1.0: The CVE number assigned to this issue. MANDATORY
+
+## CWE
+
+1.0: The CWE ID, or string of vulnerabilities that describe this issue. SUGGESTED
 
 ## CVSSv2
 
@@ -403,7 +411,13 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 ## DESCRIPTION
 
-1.0: A description of the issue. MANDATORY
+1.0: A description of the issue. It should be in the format of:
+
+```
+[Vendor name] [product name] version [version info] is vulnerable to a [flaw type] in the [component] resulting [some impact]. 
+```
+
+The description, or sufficient data to write one is required. MANDATORY
 
 ## SOURCES
 
