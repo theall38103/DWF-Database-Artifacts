@@ -173,9 +173,7 @@
       "DESCRIPTION": "String description of issue",
       "SOURCES": [
         {
-          "NAME": "name of source (can be URL)",
           "URL": ["one or more urls to this source"],
-          "IMPORTTIME": "DATE-TIMESTAMP",
           "LOCALNAME": "local filename/dir",
         }
       ]
@@ -411,14 +409,37 @@ The DWF hierarchy of data is strictly formatted and MUST conform to documnted st
 
 1.0: An array of one or more entries. Each entry has self identifying information. Please note that this data may also exist under the Vendor hierarchy for specific vendor and vendor/product combinations. This global entry is meant to reflect the original "upstream" version vulnerability information.
 
-### VERSION": "1.0",
-### NAME": "name of source (can be URL)",
-### DESCRIPTION": "description of source",
-### TYPE": "Web page/PDF/text file/email/etc.",
-### URL": ["one or more urls to this source"],
-### IMPORTTIME": "DATE-TIMESTAMP",
-### LOCALNAME": "local filename/dir",
-### NOTES": "string"
+### VERSION
+
+1.0: The version of the SOURCE data specification in use. OPTIONAL
+
+### NAME
+
+1.0: The name of the source. OPTIONAL
+
+### DESCRIPTION
+
+1.0: The description of the source. OPTIONAL
+
+### TYPE
+
+1.0: The type of source, values must be "email", "www", "file". OPTIONAL
+
+### URL
+
+1.0: The URL for the sources, must be a valid URL, or may be an email address (e.g. if the file is sent directly to us and not available on a web server). MANDATORY
+
+### IMPORTTIME
+
+1.0: When the data was imported. OPTIONAL
+
+### LOCALNAME
+
+1.0: The local name (file or directory) of the artifact, relative to directory for this CVE. MANDATORY
+
+### NOTES
+
+1.0 Any notes on this source item. OPTIONAL
 
 ## EXPLOITATION
 
