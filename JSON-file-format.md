@@ -171,14 +171,14 @@ An example of a minimum file. Please note that the AFFECTS data is not MANDATORY
       {
         "PRODUCT": "string",
         "AFFECTED": ["1.0", "1.2.6"],
-        "FIXEDIN": ["1.3", "1.2.7"],
+        "FIXEDIN": ["1.3", "1.2.7"]
       }
       ],
       "DESCRIPTION": "String description of issue",
       "SOURCES": [
         {
           "URL": ["one or more urls to this source"],
-          "LOCALNAME": "local filename/dir",
+          "LOCALNAME": "local filename/dir"
         }
       ]
   }
