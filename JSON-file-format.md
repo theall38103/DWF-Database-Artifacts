@@ -535,6 +535,68 @@ The description, or sufficient data to write one is required. Needed for the MIN
 
 1.1: A field describing workarounds, it consists of a string of text data. This field may be expanded in the future. OPTIONAL
 
+## CREDITS
+
+1.1: The CREDITS section describes people/organizations associated with the CVE that have helped out in some way. It is an array of one or more sets of objects. The objects are the ID (the entity being given credit), the ROLE they played (e.g. researcher, patcher, tester) and any related NOTES. OPTIONAL
+
+### VERSION
+
+1.1: The version of the CREDITS data specification in use. OPTIONAL
+
+### ID
+
+1.1: The ID of the entity being given credit. Consists of one "type\_of\_id\_string" and a value for that string.
+
+#### type\_of\_id\_string
+
+1.1: the "type\_of\_id\_string" is a selection of strings such as "twitter\_user", "github\_user", "facebook\_user" and so on that defines the site or namespace that this ID is from. The associated string of text data is the value such as "joesmith". OPTIONAL
+
+### ROLE
+
+1.1: This is an array of one or more items describing the role played by the entity being given credit. It can include:
+
+* discoverer
+* researcher
+* reporter
+* coordinator
+* patcher
+* tester
+* reproducer
+* releaser
+* documentation
+
+Additional documentaiton on these roles is planned. OPTIONAL
+
+### NOTES
+
+1.1: Any notes on this CREDITS item. OPTIONAL
+
+## TIMELINE
+
+1.1: The TIMELINE section describes a timeline of events surrounding the CVE in question (e.g. discovery, reporting to vendor, patch release, etc.). It consists of an array of one or more items which each have a TIMESTAMP, SOURCE, TEXT and NOTES data. OPTIONAL
+
+### VERSION
+
+1.1: The version of the CREDITS data specification in use. OPTIONAL
+
+### TIMESTAMP
+
+1.1: A formatted TIMESTAMP. MANDATORY for any TIMELINE entry.
+
+### SOURCE
+
+#### type\_of\_id\_string
+
+1.1: the "type\_of\_id\_string" is a selection of strings such as "twitter\_user", "github\_user", "facebook\_user" and so on that defines the site or namespace that this ID is from. The associated string of text data is the value such as "joesmith". OPTIONAL
+
+### TEXT
+
+1.1: The text of the TIMELINE item, e.g. "Notified Vendor X via email". MANDATORY for any TIMELINE entry.
+
+### NOTES
+
+1.1: Any notes on this TIMELINE item. OPTIONAL
+
 ## NOTES
 
 1.1: A notes field for the global section that consists of a string of text data. OPTIONAL
