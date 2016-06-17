@@ -1,0 +1,39 @@
+From 2e227f6023477cbdbefd577f15d0846aa40c8775 Mon Sep 17 00:00:00 2001
+From: Patrick Uiterwijk <puiterwijk@redhat.com>
+Date: Fri, 17 Jun 2016 18:32:34 +0000
+Subject: [PATCH] Allow submission of checkin information via json
+
+This means we still allow pickle submissions as a stopgap until we
+manage to convince admins to move to json submissions.
+
+Related: CVE-2016-1000003
+Signed-off-by: Patrick Uiterwijk <puiterwijk@redhat.com>
+---
+ mirrormanager2/xmlrpc.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/mirrormanager2/xmlrpc.py b/mirrormanager2/xmlrpc.py
+index 804f43a..82a90e3 100644
+--- a/mirrormanager2/xmlrpc.py
++++ b/mirrormanager2/xmlrpc.py
+@@ -25,6 +25,7 @@
+ 
+ import base64
+ import pickle
++import json
+ import bz2
+ 
+ import flask
+@@ -41,7 +42,11 @@
+ 
+ @XMLRPC.register
+ def checkin(pickledata):
+-    config = pickle.loads(bz2.decompress(base64.urlsafe_b64decode(pickledata)))
++    uncompressed = bz2.decompress(base64.urlsafe_b64decode(pickledata))
++    try:
++        config = json.loads(uncompressed)
++    except ValueError:
++        config = pickle.loads(uncompressed)
+     r, message = read_host_config(SESSION, config)
+     if r is not None:
+         return message + 'checked in successful'
