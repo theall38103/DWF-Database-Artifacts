@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+<meta charset="UTF-8">
+<title>Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v3.5 - https://yoast.com/wordpress/plugins/seo/ -->
+<link rel="canonical" href="http://www.tripwire.com/state-of-security/vulnerability-management/ruckus-vulnerability/" />
+<link rel="publisher" href="https://plus.google.com/112356549259894290003"/>
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware" />
+<meta property="og:description" content="Wireless routers designed for consumers often do not employ proper security practices. This topic was extensively covered in VERT’s 2014 report, “SOHO Wireless Router (In)security.” Our research revealed that 74% of the 50 top-selling consumer routers on Amazon shipped with security vulnerabilities, including 20 different models where the latest firmware from the vendor was exploitable. &hellip;&hellip;&nbsp;Read More" />
+<meta property="og:url" content="http://www.tripwire.com/state-of-security/vulnerability-management/ruckus-vulnerability/" />
+<meta property="og:site_name" content="The State of Security" />
+<meta property="article:publisher" content="http://facebook.com/TripwireInc" />
+<meta property="article:tag" content="disclosure" />
+<meta property="article:tag" content="Ruckus" />
+<meta property="article:tag" content="security" />
+<meta property="article:tag" content="vulnerability" />
+<meta property="article:section" content="Featured Articles" />
+<meta property="article:published_time" content="2016-08-03T02:01:39-07:00" />
+<meta property="article:modified_time" content="2016-08-02T11:15:58-07:00" />
+<meta property="og:updated_time" content="2016-08-02T11:15:58-07:00" />
+<meta property="og:image" content="http://www.tripwire.com/state-of-security/wp-content/uploads/RUCKUS.jpg" />
+<meta property="og:image:width" content="800" />
+<meta property="og:image:height" content="443" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="Wireless routers designed for consumers often do not employ proper security practices. This topic was extensively covered in VERT’s 2014 report, “SOHO Wireless Router (In)security.” Our research revealed that 74% of the 50 top-selling consumer routers on Amazon shipped with security vulnerabilities, including 20 different models where the latest firmware from the vendor was exploitable. [&hellip;]&hellip;&nbsp;Read More" />
+<meta name="twitter:title" content="Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware" />
+<meta name="twitter:site" content="@TripwireInc" />
+<meta name="twitter:image" content="/state-of-security/wp-content/uploads/RUCKUS.jpg" />
+<meta name="twitter:creator" content="@TripwireInc" />
+<!-- / Yoast SEO plugin. -->
+
+<link rel='dns-prefetch' href='//a.optnmnstr.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"\/state-of-security\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.6.1"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='base-theme-css'  href='http://www.tripwire.com/state-of-security/wp-content/themes/tw-base/assets/css/base.theme.css?ver=1.9.5' media='all' />
+<link rel='stylesheet' id='youtube-channel-gallery-css'  href='http://www.tripwire.com/state-of-security/wp-content/plugins/youtube-channel-gallery/styles.css?ver=4.6.1' media='all' />
+<link rel='stylesheet' id='jquery.magnific-popup-css'  href='http://www.tripwire.com/state-of-security/wp-content/plugins/youtube-channel-gallery/magnific-popup.css?ver=4.6.1' media='all' />
+<script type='text/javascript' src='http://www.tripwire.com/state-of-security/wp-content/themes/tw-base/assets/js/base.full.js?ver=1.9.5&#038;jq=1.11.0'></script>
+<script type='text/javascript' data-cfasync="false" id="omapi-script" src='//a.optnmnstr.com/app/js/api.min.js?ver=1.1.5'></script>
+<link rel='https://api.w.org/' href='http://www.tripwire.com/state-of-security/wp-json/' />
+<link rel="alternate" type="application/json+oembed" href="http://www.tripwire.com/state-of-security/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.tripwire.com%2Fstate-of-security%2Fvulnerability-management%2Fruckus-vulnerability%2F" />
+<link rel="alternate" type="text/xml+oembed" href="http://www.tripwire.com/state-of-security/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fwww.tripwire.com%2Fstate-of-security%2Fvulnerability-management%2Fruckus-vulnerability%2F&#038;format=xml" />
+<link rel="dns-prefetch" href="//www.google-analytics.com" >
+<meta name="viewport" content="width=device-width,initial-scale=1.0" >
+<link rel="shortcut icon" href="/state-of-security/wp-content/themes/tw-base/favicon.ico" >
+<link rel="pingback" href="http://www.tripwire.com/state-of-security/xmlrpc.php" >
+
+<!-- Dynamic Widgets by QURL - http://www.qurl.nl //-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<script type="text/javascript" src="/state-of-security/wp-content/themes/tw-base/assets/js/ie.respond.min.js"></script>	<link href="/state-of-security/wp-content/themes/tw-base/assets/css/ie/ie8.css" rel="stylesheet" type="text/css">	<style>
+	header .tab-nav{filter:none;}
+	.navbar-collapse.collapse{display:block!important;visibility:visible!important;}
+	.collapse{
+		display: block !important;
+		visibility: visible !important;
+	}
+
+		h1,h2,h3,h4,h5,h6
+			,h1 strong
+			,.slide h4
+			,.font-regular,.list-border,.list-date
+			,nav li
+			,.tabbed-nav
+			,footer h5
+			,.button
+			,.nav-utilities
+			,.tab-nav{
+				font-family:"HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+			h3,h4,h5,h6
+			,h1 strong,.nav-head{font-size:97%;}
+			.post-info h2{font-size:1.2em;}
+			.sb-right,.read-more,.tab-nav{font-size:92%;}
+			h2{font-weight:bold;}
+			h6.wa-title,.sb-right h6.wa-title,.sb-right h4{font-size:.9em!important;font-weight:bold;}
+			.icons-social-large li{margin-right:9px;}
+		</style>
+<![endif]-->
+<!--[if gte IE 9]>
+	<link href="/state-of-security/wp-content/themes/tw-base/assets/css/ie/ie9.css" rel="stylesheet" type="text/css">	<style type="text/css">
+		.gradient,hr,.tab:before,.tab:after,.tab-nav,.navigation,.nav-header{filter:none;}
+		.icons-social-large li{margin-right:9px;}
+	</style>
+<![endif]--><style>.bio-jp{}
+.bio-en{}
+.carousel .img-mask:after{
+bottom:-2px;
+max-height:50px;
+}
+.posts-by-popularity .metadata-image{width:120px;}
+.single article .post-footer:before
+,.single article .post-footer:after
+,.single article .post-footer
+,.single article .body-content{
+clear:both;
+}
+.single article .body-content:before
+,.single article .body-content:after
+,.single article .post-footer:before
+,.single article .post-footer:after{
+content:'020';
+font-size:0;
+display:table;
+clear:both;
+}
+
+.mc_custom_border_hdr {
+font-size: 24px;
+line-height: 24px;
+text-align: center;
+font-family: 'Klavika-Regular', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+color: #263D88
+}
+
+#mc_subheader {
+text-align: center;
+margin: 10px;
+font-size: 18px;
+line-height: 22px;
+}
+
+#mc_signup_submit {
+margin-top: -10px !important;
+}
+
+section#mailchimpsf_widget-2 {
+background-color: #F0F0EF;
+padding: 20px 10px;
+}
+
+#mc_signup_form .mc_var_label {
+color: #333;
+}
+.carousel-inner .item img, .carousel-inner .item a img,.img.img-mask{top:0!important;}
+.ui-tabs .ui-tabs-nav .ui-tabs-anchor{padding:.5em .7em;}
+
+table#vertrisk a {
+color: white;
+font-size: 13px;
+}
+img[src^="https://www.facebook.com/tr"]{display:inherit;}</style><!-- Marketo -->
+<script type="text/javascript">
+document.write(unescape("%3Cscript src='//munchkin.marketo.net/munchkin.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>Munchkin.init('314-IAH-785');</script>
+
+<!-- Google Analytics -->
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-1168187-1']);
+_gaq.push(['_trackPageview']);
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!-- Optimizely -->
+<script src="//cdn.optimizely.com/js/740610152.js"></script>
+
+<!-- Facebook Remarketing -->
+<script>(function() {
+var _fbq = window._fbq || (window._fbq = []);
+if (!_fbq.loaded) {
+var fbds = document.createElement('script');
+fbds.async = true;
+fbds.src = '//connect.facebook.net/en_US/fbds.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(fbds, s);
+_fbq.loaded = true;
+}
+_fbq.push(['addPixelId', '410427612450652']);
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', 'PixelInitialized', {}]);
+</script>
+<img height="1" width="1" alt="" src="https://www.facebook.com/tr?id=410427612450652&amp;ev=PixelInitialized" />
+
+<!-- Facebook Conversion Code for Operational Excellence -->
+<script>(function() {
+var _fbq = window._fbq || (window._fbq = []);
+if (!_fbq.loaded) {
+var fbds = document.createElement('script');
+fbds.async = true;
+fbds.src = '//connect.facebook.net/en_US/fbds.js';
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(fbds, s);
+_fbq.loaded = true;
+}
+})();
+window._fbq = window._fbq || [];
+window._fbq.push(['track', '6022696128957', {'value':'0.01','currency':'USD'}]);
+</script>
+<img height="1" width="1" alt="" src="https://www.facebook.com/tr?ev=6022696128957&amp;cd[value]=0.01&amp;cd[currency]=USD&amp;noscript=1" /></head>
+<body class="single post-ruckus-vulnerability t-single">
+<section id="page" class="t-single page t-col-two content-left sb-one">
+<p class="hide sr-only">
+	<a href="#content" title="Skip to content">Skip to content &darr;</a> | 
+	<a href="#navigation" title="Skip to navigation">Skip to navigation &darr;</a>
+</p>
+<!-- header -->
+<header id="header-main" class="main header-search header-tagline">
+	<section class="container">
+		<div class="col-left">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<!-- Logo -->
+<div id="logo" class="logo-main">
+	<h2 class="logo-text"><a href="http://www.tripwire.com/state-of-security/" title="The State of Security">The State of Security</a></h2>
+</div><!-- /Logo -->
+			<!-- tagline -->
+	<h6 class="tagline">News. Trends. Insights.</h6>
+		</div>
+		<div class="col-right">
+			<a href="/" title="Tripwire, Inc." id="logo-tripwire" class="logo-tripwire">Tripwire, Inc.</a>
+			<div id="widgetarea" class="align-right">
+							</div>
+		</div>
+		</section><!-- /container -->
+<div class="navbar-collapse collapse">
+	<div class="container">
+	<nav id="nav-main" class="nav nav-main"><ul class="nav navbar-collapse nav-main"><li id="nav-featured-articles"><a title="Featured Articles" href="/state-of-security/topics/featured/">Featured Articles</a></li>
+<li id="nav-latest-security-news"><a title="Latest Security News" href="/state-of-security/topics/latest-security-news/">Latest Security News</a></li>
+<li id="nav-topics"><a href="/state-of-security/topics/">Topics</a>
+<ul class="sub-menu">
+	<li id="nav-endpoint-detection---response"><a href="/state-of-security/topics/security-data-protection/edr/">Endpoint Detection &#038; Response</a></li>
+	<li id="nav-government"><a href="/state-of-security/topics/government/">Government</a></li>
+	<li id="nav-ics-security"><a href="/state-of-security/topics/ics-security/">ICS Security</a></li>
+	<li id="nav-incident-detection"><a href="/state-of-security/topics/incident-detection/">Incident Detection</a></li>
+	<li id="nav-it-security-and-data-protection"><a href="/state-of-security/topics/security-data-protection/">IT Security and Data Protection</a></li>
+	<li id="nav-off-topic"><a href="/state-of-security/topics/off-topic/">Off Topic</a></li>
+	<li id="nav-regulatory-compliance"><a href="/state-of-security/topics/regulatory-compliance/">Regulatory Compliance</a></li>
+	<li id="nav-risk-based-security-for-executives"><a href="/state-of-security/topics/risk-based-security-for-executives/">Risk-Based Security for Executives</a></li>
+	<li id="nav-security-awareness"><a href="/state-of-security/topics/security-awareness/">Security Awareness</a></li>
+	<li id="nav-security-slice"><a href="/state-of-security/topics/security-slice-podcast/">Security Slice</a></li>
+	<li id="nav-tripwire-news"><a href="/state-of-security/topics/tripwire-news/">Tripwire News</a></li>
+	<li id="nav-vulnerability-management"><a href="/state-of-security/topics/vulnerability-management/">Vulnerability Management</a></li>
+</ul>
+</li>
+<li id="nav-resources"><a href="/state-of-security/resources/">Resources</a>
+<ul class="sub-menu">
+	<li id="nav-podcasts"><a title="Podcasts" href="/state-of-security/topics/security-slice-podcast/">Podcasts</a></li>
+	<li id="nav-videos"><a href="/state-of-security/resources/videos/">Videos</a></li>
+</ul>
+</li>
+<li id="nav-about"><a href="/state-of-security/about/">About</a>
+<ul class="sub-menu">
+	<li id="nav-about-the-state-of-security"><a title="About The State Of Security" href="/state-of-security/about/">About The State Of Security</a></li>
+	<li id="nav-tripwire-contributors"><a title="Tripwire Contributors" href="/state-of-security/contributors/">Tripwire Contributors</a></li>
+	<li id="nav-contact-us"><a href="/state-of-security/about/contact-us/">Contact Us</a></li>
+</ul>
+</li>
+<li id="nav-explore-tripwire"><a href="http://www.tripwire.com/">Explore Tripwire</a>
+<ul class="sub-menu">
+	<li id="nav-security-configuration-management"><a href="http://www.tripwire.com/it-security-software/scm/tripwire-enterprise/">Security Configuration Management</a></li>
+	<li id="nav-vulnerability-management"><a href="http://www.tripwire.com/it-security-software/enterprise-vulnerability-management/tripwire-ip360/">Vulnerability Management</a></li>
+	<li id="nav-endpoint-detection---response"><a href="http://www.tripwire.com/solutions/endpoint-detection-and-response/">Endpoint Detection &#038; Response</a></li>
+	<li id="nav-log-management"><a href="http://www.tripwire.com/it-security-software/tripwire-log-center/">Log Management</a></li>
+	<li id="nav-security-intelligence"><a href="http://www.tripwire.com/it-security-software/connect/">Security Intelligence</a></li>
+	<li id="nav-pci-compliance"><a href="http://www.tripwire.com/regulatory-compliance/pci-dss-compliance/">PCI Compliance</a></li>
+	<li id="nav-nerc-compliance"><a href="http://www.tripwire.com/regulatory-compliance/nerc-cip-compliance/">NERC Compliance</a></li>
+</ul>
+</li>
+</ul><ul class="navbar-search"><li class="link-tripwire"><a href="http://www.tripwire.com/" title="Tripwire, Inc.">Tripwire.com</a></li><li class="navbar-search"><form method="get" class="search navbar-form" action="http://www.tripwire.com/state-of-security" ><input id="s" name="s" type="text" value="" placeholder="Search" ><button class="btn-search" type="submit"> </button></form></li></ul></nav>		</div>
+</div><!--/.navbar-collapse --></header><!-- /header -->
+	<section id="content" class="single body-single">
+		<section class="container">
+			<!-- section -->
+			<section class="row">
+											<section class="col-main col-main">
+																<article id="post-42372" class=" post-content entry-content post-42372 post type-post status-publish format-standard has-post-thumbnail hentry category-featured category-security-awareness category-vulnerability-management tag-disclosure tag-ruckus tag-security tag-vulnerability">
+		<header class="page-header single-header">	<p id="breadcrumbs"><span xmlns:v="http://rdf.data-vocabulary.org/#"><span typeof="v:Breadcrumb"><a href="http://www.tripwire.com/state-of-security/" rel="v:url" property="v:title">Home</a> » <span rel="v:child" typeof="v:Breadcrumb"><a href="/state-of-security/topics/vulnerability-management/" rel="v:url" property="v:title">Vulnerability Management</a> » <span class="breadcrumb_last">Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware</span></span></span></span></p>
+	
+	<h1 class="title single"> Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware</h1>			
+		<div class="metadata byline"><div class="metadata-image"><span class="metadata-avatar"><a id="avatar-link-64" class="avatar-link" href="http://www.tripwire.com/state-of-security/contributors/craig-young/" title="Craig Young" ><img id="avatar-64" class="avatar" src="http://www.tripwire.com/state-of-security/wp-content/uploads/2013/05/CraigYoung.jpg" alt="Craig Young" /></a></span></div><div class="metadata-text"><p class="metadata"><span class="metadata-author"><span class="vcard author"><span class="fn"><a class="author-link" href="http://www.tripwire.com/state-of-security/contributors/craig-young/" title="Craig Young">Craig Young</a></span></span></span></p><ul class="metadata list-metadata"><li class="li-metadata"><span class="metadata-date post_date date updated">Aug 3, 2016</span></li><li class="li-metadata"><span class="meta-category cat-vulnerability-management vulnerability-management"><a id="cat-706" class="cat-link" href="/state-of-security/topics/vulnerability-management/" title="Vulnerability Management" >Vulnerability Management</a></span></li></ul></div></div>
+	<span class="post-image bnr-single"><img src="/state-of-security/wp-content/uploads/RUCKUS.jpg" class="attachment-large size-large wp-post-image" alt="RUCKUS" srcset="http://www.tripwire.com/state-of-security/wp-content/uploads/RUCKUS.jpg 800w, http://www.tripwire.com/state-of-security/wp-content/uploads/RUCKUS-768x425.jpg 768w" sizes="(max-width: 800px) 100vw, 800px" /></span>
+</header>		 	<section class="body-content">
+						<span class="entry-content post-content"><!-- AddThis Sharing Buttons above --><div class='at-above-post addthis_default_style addthis_toolbox at-wordpress-hide' data-title='Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware' data-url='http://www.tripwire.com/state-of-security/vulnerability-management/ruckus-vulnerability/'></div><p>Wireless routers designed for consumers often do not employ proper security practices.</p>
+<p>This topic was extensively covered in VERT’s 2014 report, “SOHO Wireless Router (In)security.” Our research revealed that 74% of the 50 top-selling consumer routers on Amazon shipped with security vulnerabilities, including 20 different models where the latest firmware from the vendor was exploitable. Many people I have discussed this research with have expressed the opinion that, for one reason or another, this problem is more or less confined to the consumer sector.</p>
+<p>My suspicion was that feature wars and low profit margins could be contributing to the epidemic of insecure routers. In an attempt to determine whether this issue was limited to the consumer market, I decided it would be necessary to obtain and evaluate a wireless router designed for enterprise networks.</p>
+<p>Naturally, the first step of this research project was to pick a target.</p>
+<p>Whereas there are many brands of affordable consumer routers, enterprise equipment is not cheap and my budget meant I would most likely be limited to testing a single product family. I started by conducting some “<a href="http://www.itworld.com/article/2776266/security/war-walking--detecting-wireless-networks.html" target="_blank">war walking</a>” with the Android Wi-Fi Analyzer app to get an idea of what brands are being installed in real-world environments. From this, I found that Ruckus and Cisco seem to have a strong hold on the market. A <a href="http://www.slideshare.net/CommsDay/cdsummit-2015-ruckus-wireless-david-wright/4" target="_blank">report from Dell’Oro Group</a> stated that Ruckus accounted for 42% of the units shipped in 4Q14 and so, with that, I decided to proceed with Ruckus.</p>
+<h4>METHODOLOGY</h4>
+<p>To keep my comparison meaningful, I decided it would be best to limit the scope of my testing to the HTTP interface and use the same methodology I used for finding vulnerabilities in the consumer routers.</p>
+<p>This was easy because I had already established an effective testing process over the course of a few router security assessments. At a high-level, I use a combination of manual fuzz testing and partially automated querying based on information extracted from firmware and shell access where available.</p>
+<p>Earlier this year, I taught about these techniques at length during an AusCERT tutorial session titled ‘Brainwashing Embedded Systems.’ I am also happy to report that I will again be sharing this knowledge in a <a href="http://www.tripwire.com/state-of-security/security-awareness/events/brainwashing-embedded-systems/" target="_blank">DEF CON 24 workshop</a> as well as a SecTor 2016 training session.</p>
+<h4>FIRST IMPRESSIONS</h4>
+<p>Before investing in an expensive high-end Ruckus model, I decided to start my tests with a second-hand Ruckus ZoneFlex running the latest available firmware as of 10/27/15.</p>
+<p>Within a few minutes of setting up the device, I found a command injection, which is exploitable through a forged request due to a general lack of CSRF tokens. As with many of the consumer routers I had tested, the ZoneFlex offers administrators an option to perform diagnostics, including a simple ping test, with apparently no input sanitization. In every case where I’ve found this flaw on a consumer router, it has been pretty devastating.</p>
+<p>Although the light-weight consumer embedded devices commonly have all processes running as uid 0 (root), I thought certainly an enterprise product would use privilege separation. The ping operation requires no special privilege, so it should be running as a user with limited access. I tested this theory by crafting a ping parameter to spawn a telnet daemon and to my surprise, it worked and I was granted a root shell.</p>
+<p>This was more than enough confirmation to me that it would be worth the investment in a current model.</p>
+<h4>ANALYZING THE RUCKUS HTTP INTERFACE</h4>
+<p>After some Google searches, I found that I was not the only person aware of this blatant command injection.</p>
+<p>My ZoneFlex model was EOL with rather old firmware so naturally, I expected that this low-hanging fruit would have been fixed in the new product. My research picked up again when I set up a Ruckus H500 access point with the latest firmware (100.1.0.0.432); I was shocked to find that the ping injection still worked! After obtaining a shell on this fully patched access point, I proceeded by creating a simple list of files contained in the web server’s document root. This is a trivial process possible from either the shell access or through firmware extraction and can be supplemented by locating possible URIs embedded within the server’s binaries.</p>
+<p>In this particular case, I limited myself just to the files visible in the firmware update. I then fed this list into a script I have for crawling an HTTP server and recording which files are accessible without authentication.</p>
+<h4>THE FINDINGS</h4>
+<p>As was commonly the case with consumer devices, this rather simple process exposed a few flaws:</p>
+<ul>
+<li><strong>Authentication Bypass:</strong> All requests containing a particular string received ‘200 OK’ responses. By creatively adding this string to other requests, I was able to get response data intended only for authenticated queries. This is a behavior I have observed in routers from NETGEAR, TrendNET and Asus.</li>
+<li><strong>Denial of Service:</strong> There is a particular page accessible over HTTP without authentication that, when requested over SSL, causes the management interface to become unavailable. This is a serious issue as the product relies on HTTP when used as a hot spot.</li>
+<li><strong>Information Disclosure:</strong> The device’s serial number is exposed by the HTTP server. It is unclear whether this has any direct security impact but it may be useful to an attacker as part of a social engineering ploy. I have also observed other products where the serial number is used as a means to prove ownership of a device.</li>
+</ul>
+<p>Additionally, I also found that authenticated requests for a certain page would trigger excessive memory consumption causing the HTTP server to reload, as well as possible disruption to other services. This vector is exploitable via GET requests and therefore lends itself to CSRF attacks through malicious image tags in HTML documents or emails.</p>
+<h4>RUCKUS’ RESPONSE</h4>
+<p>These were not the only vulnerabilities in the Ruckus access point but at this point, I reached out to the vendor.</p>
+<p>Unlike with some vendors where it takes guess work to figure out an appropriate security contact, Ruckus has a page listing a PGP key and email address for reporting vulnerabilities. While this is normally a good sign of a responsive organization, repeated attempts to email them my report resulted in bounces.</p>
+<p>In early January 2016, about a month after I first reached out to Ruckus, I emailed several other posted addresses stating my problem reaching the security contact. A webmaster contact responded letting me know that he would get the account setup but after resending the report and asking for receipt confirmation, I heard nothing. Later that month, I contacted CERT who assigned VU#974320 and confirmed that they could not get a response from Ruckus.</p>
+<p>Ruckus did not acknowledge receipt of any vulnerability reports until Tripwire’s Chief Research Officer, David Meltzer, reached out directly to Ruckus executives over LinkedIn.</p>
+<p>After that I received a forwarded copy of my encrypted report from January with a request for receipt confirmation. During a follow-up call I was told that they had not been able to decrypt my message and had therefore ignored it. I was also told that they had no knowledge that CERT had attempted to contact them. I have been advised by Ruckus that these vulnerabilities present in the HTTPS interface are not exposed unless the product is running in standalone mode.</p>
+<p>I have yet to validate these claims or to perform a full security audit on any Ruckus product.</p>
+<h4>LESSONS LEARNED</h4>
+<p>The lesson from this research project seems to be that “enterprise-class” hardware does not necessarily mean enterprise quality in terms of security.</p>
+<p>My experience auditing Ruckus equipment is very similar to some of the experiences I’ve had auditing the wireless routers you might find in a local computer store. In fact, the authentication bypass and command injection are essentially the same problems I have found on SOHO devices in the $100-$200 range.</p>
+<p>The biggest difference here is that my report to Ruckus appears was completely ignored for many months and required ‘Executive-to-Executive’ communication before the report was acknowledged. Organizations using Ruckus devices may be at risk for compromise, particularly when the access points are used to provide customers with Wi-Fi access.</p>
+<p>An intruder to one of these systems could potentially become man-in-the-middle to all other users of the wireless network allowing a wide range of exploitation opportunities. Ruckus has advised that only standalone APs would be affected but I have not had a chance to evaluate this claim and do not know how prevalent the standalone mode is.</p>
+<p>The bulk of the security research described in this article was performed in a single evening, so in my opinion it would be foolish to think that there are not more issues lurking or that the other operating modes are necessarily any more secure.</p>
+<p>Discover how to help protect your embedded devices better by reading this article, <a href="http://www.tripwire.com/state-of-security/security-awareness/five-security-tips-to-protect-embedded-devices/" target="_blank">&#8220;Five Security Tips to Protect Embedded Devices&#8221;.</a></p>
+<p>A full timeline of this disclosure process is as follows:</p>
+<p><img class="wp-image-42403 alignleft" src="http://www.tripwire.com/state-of-security/wp-content/uploads/Ruckus-V2-3.png" alt="Ruckus V2 (3)" width="550" height="2132" srcset="http://www.tripwire.com/state-of-security/wp-content/uploads/Ruckus-V2-3.png 800w, http://www.tripwire.com/state-of-security/wp-content/uploads/Ruckus-V2-3-768x2976.png 768w" sizes="(max-width: 550px) 100vw, 550px" /></p>
+<p><span style="border-radius: 2px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font: bold 11px/20px 'Helvetica Neue',Helvetica,sans-serif; color: #ffffff; background: #bd081c no-repeat scroll 3px 50% / 14px 14px; position: absolute; opacity: 1; z-index: 8675309; display: none; cursor: pointer;">Save</span></p>
+<p><span style="border-radius: 2px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font: bold 11px/20px 'Helvetica Neue',Helvetica,sans-serif; color: #ffffff; background: #bd081c no-repeat scroll 3px 50% / 14px 14px; position: absolute; opacity: 0.85; z-index: 8675309; display: none; cursor: pointer; top: 2443px; left: 20px;">Save</span></p>
+<p><span style="border-radius: 2px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font: bold 11px/20px 'Helvetica Neue',Helvetica,sans-serif; color: #ffffff; background: #bd081c no-repeat scroll 3px 50% / 14px 14px; position: absolute; opacity: 1; z-index: 8675309; display: none; cursor: pointer;">Save</span></p>
+<p><span style="border-radius: 2px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font: bold 11px/20px 'Helvetica Neue',Helvetica,sans-serif; color: #ffffff; background: #bd081c no-repeat scroll 3px 50% / 14px 14px; position: absolute; opacity: 0.85; z-index: 8675309; display: none; cursor: pointer; top: 2443px; left: 20px;">Save</span></p>
+<p><span style="border-radius: 2px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font: bold 11px/20px 'Helvetica Neue',Helvetica,sans-serif; color: #ffffff; background: #bd081c no-repeat scroll 3px 50% / 14px 14px; position: absolute; opacity: 0.85; z-index: 8675309; display: none; cursor: pointer; top: 2443px; left: 20px;">Save</span></p>
+<p><span style="border-radius: 2px; text-indent: 20px; width: auto; padding: 0px 4px 0px 0px; text-align: center; font: bold 11px/20px 'Helvetica Neue',Helvetica,sans-serif; color: #ffffff; background: #bd081c no-repeat scroll 3px 50% / 14px 14px; position: absolute; opacity: 1; z-index: 8675309; display: none; cursor: pointer;">Save</span></p>
+<!-- AddThis Sharing Buttons below --><div class='at-below-post addthis_default_style addthis_toolbox at-wordpress-hide' data-title='Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware' data-url='http://www.tripwire.com/state-of-security/vulnerability-management/ruckus-vulnerability/'></div><!-- AddThis Recommended Content below --> <div class='at-below-post-recommended addthis_default_style addthis_toolbox at-wordpress-hide'></div></span><script data-cfasync="false" type="text/javascript"></script>
+                <!-- AddThis Settings Begin -->
+                <script data-cfasync="false" type="text/javascript">
+                    var addthis_product = "wpp-5.3.3";
+                    var wp_product_version = "wpp-5.3.3";
+                    var wp_blog_version = "4.6.1";
+                    var addthis_plugin_info = {"info_status":"enabled","cms_name":"WordPress","cms_version":"4.6.1","plugin_name":"Share Buttons by AddThis","plugin_version":"5.3.3","anonymous_profile_id":"wp-75f5888fc2e866b0f93e2bdb6ffa9ff5","plugin_mode":"AddThis","select_prefs":{"addthis_per_post_enabled":false,"addthis_above_enabled":true,"addthis_below_enabled":true,"addthis_sidebar_enabled":false,"addthis_mobile_toolbar_enabled":false,"addthis_above_showon_home":false,"addthis_above_showon_posts":true,"addthis_above_showon_pages":false,"addthis_above_showon_archives":false,"addthis_above_showon_categories":false,"addthis_above_showon_excerpts":false,"addthis_below_showon_home":false,"addthis_below_showon_posts":true,"addthis_below_showon_pages":false,"addthis_below_showon_archives":true,"addthis_below_showon_categories":true,"addthis_below_showon_excerpts":false,"addthis_sidebar_showon_home":true,"addthis_sidebar_showon_posts":true,"addthis_sidebar_showon_pages":true,"addthis_sidebar_showon_archives":true,"addthis_sidebar_showon_categories":true,"addthis_mobile_toolbar_showon_home":true,"addthis_mobile_toolbar_showon_posts":true,"addthis_mobile_toolbar_showon_pages":true,"addthis_mobile_toolbar_showon_archives":true,"addthis_mobile_toolbar_showon_categories":true,"sharing_enabled_on_post_via_metabox":true},"page_info":{"template":"posts","post_type":""}};
+                    if (typeof(addthis_config) == "undefined") {
+                        var addthis_config = {"data_track_clickback":true,"data_ga_property":"UA-1168187-1","data_ga_social":true,"ui_atversion":300};
+                    }
+                    if (typeof(addthis_share) == "undefined") {
+                        var addthis_share = {"passthrough":{"twitter":{"via":"TripwireInc"}},"url_transforms":{"shorten":{"twitter":"bitly"}},"shorteners":{"bitly":{}}};
+                    }
+                    if (typeof(addthis_layers) == "undefined") {
+                        var addthis_layers = {};
+                    }
+                </script>
+                <script
+                    data-cfasync="false"
+                    type="text/javascript"
+                    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4eb8288034914303 "
+                    async="async"
+                >
+                </script>
+                <script data-cfasync="false" type="text/javascript">
+                    (function() {
+                        var at_interval = setInterval(function () {
+                            if(window.addthis) {
+                                clearInterval(at_interval);
+                                addthis.layers(addthis_layers);
+                            }
+                        },1000)
+                    }());
+                </script>
+                		</section>
+		<footer class="post-footer">
+				<a href="http://www.tripwire.com/register/tripwire-ccm-express-free-trial/?utm_source=sos&utm_medium=blog_bottom&utm_content=tool&utm_campaign=ccm-express-trial-2/" target="_blank"><img src="http://www.tripwire.com/state-of-security/wp-content/uploads/Tripwire-CCM-Express-Blog-stress-01.png" alt="Tripwire CCM Express Free Trial" width="695" height="250"/></a></aside>			<div class="post metadata">
+				<p class="list-categories"><span class="title">Categories </span><a href="/state-of-security/topics/featured/" rel="tag">Featured Articles</a>, <a href="/state-of-security/topics/security-awareness/" rel="tag">Security Awareness</a>, <a href="/state-of-security/topics/vulnerability-management/" rel="tag">Vulnerability Management</a></p>
+				<p class="list-tags"><span class="title">Tags </span><a href="/state-of-security/tag/disclosure/" rel="tag">disclosure</a>, <a href="/state-of-security/tag/ruckus/" rel="tag">Ruckus</a>, <a href="/state-of-security/tag/security/" rel="tag">security</a>, <a href="/state-of-security/tag/vulnerability/" rel="tag">vulnerability</a></p>
+			</div>
+			<hr class="hr-comments" />
+<div id="disqus_thread">
+    </div>
+
+<aside class="author-bio short"><div class="col-full"><h5 class="author author-craig-young">About Craig Young</h5></div><div class="col-left"><div class="author-avatar"><a id="avatar-link-64" class="avatar-link" href="http://www.tripwire.com/state-of-security/contributors/craig-young/" title="Craig Young" ><img id="avatar-64" class="avatar" src="http://www.tripwire.com/state-of-security/wp-content/uploads/2013/05/CraigYoung.jpg" alt="Craig Young" /></a></div></div><div class="col-right"><div class="author-info"><p><span class="vcard author"><span class="fn"><a class="author-link" href="http://www.tripwire.com/state-of-security/contributors/craig-young/" title="Craig Young">Craig Young</a></span></span> has contributed 45 posts to The State of Security.</p></div><p class="link-view-all posts-by-author"><span class="vcard author"><span class="fn"><a href="http://www.tripwire.com/state-of-security/contributors/craig-young/" title="View all posts by Craig Young">View all posts by Craig Young</a></span></span></p><a href="https://twitter.com/craigtweets" title="Follow @craigtweets" class="stwitter-follow-button" data-show-count="false">Follow @craigtweets</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></div></aside>		</footer><!-- /.post-footer -->
+</article><!-- #post -->																			</section><!-- /section -->
+									<aside id="sb-right" class="col-sb sb sb-right wa">
+		<section id="optin-monster-api-2" class="w-area wa-side-right optin-monster-api"><!-- This site is converting visitors into subscribers and customers with OptinMonster - http://optinmonster.com --><div id="om-axhi7jqprf-sidebar-holder"></div><script>var axhi7jqprf_sidebar,axhi7jqprf_sidebar_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){axhi7jqprf_sidebar_poll(function(){if(window['om_loaded']){if(!axhi7jqprf_sidebar){axhi7jqprf_sidebar=new OptinMonsterApp();return axhi7jqprf_sidebar.init({u:"5177.257404",staging:0,dev:0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="//a.optnmnstr.com/app/js/api.min.js",o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;axhi7jqprf_sidebar=new OptinMonsterApp();axhi7jqprf_sidebar.init({u:"5177.257404",staging:0,dev:0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");</script><!-- / OptinMonster --></section><section id="wa-subscribe" class="w-area widget_text subscribe">
+<div class="textwidget">
+<nav class="nav-social">
+	<ul class="list-inline icons-social icon-30">
+		<li class="icon-social-twitter "><a class="twitter" href="http://twitter.com/TripwireInc" rel="external" title="Twitter">Twitter</a></li>
+		<li class="icon-social-linkedin"><a class="linkedin" href="http://www.linkedin.com/company/9330" rel="external" title="LinkedIn">LinkedIn</a></li>
+		<li class="icon-social-rss "><a class="rss" href="/state-of-security/feed/" title="RSS">RSS</a></li>
+		<li class="icon-social-googleplus "><a class="googleplus" href="https://plus.google.com/112356549259894290003" title="Google+">Google+</a></li>
+		<li class="icon-social-facebook "><a class="facebook" href="http://facebook.com/TripwireInc" title="Facebook">Facebook</a></li>
+		<li class="icon-social-slideshare "><a class="slideshare" href="http://www.slideshare.net/Tripwire" title="SlideShare">SlideShare</a></li>
+		<li class="icon-social-youtube "><a class="youtube" href="http://www.youtube.com/user/TripwireInc?feature=mhum" rel="external" title="YouTube">YouTube</a></li>
+		<li class="icon-social-flickr "><a class="flickr" href="http://www.flickr.com/photos/tripwireinc/" rel="external" title="Flickr">Flickr</a></li>
+	</ul>
+</nav>
+
+
+
+</div>
+</section><div id="sb-bnr" style="text-align:center; margin-bottom:50px">
+	<h6 class="wa-title" style="margin-bottom:10px; text-transform: uppercase;text-align:left;">Free eBook</h6>
+	<a href="http://www.tripwire.com/scm/?utm_source=sos&utm_medium=sb-bnr&utm_content=pdf&utm_campaign=scm-for-dummies" target="_blank"><img src="http://www.tripwire.com/state-of-security/wp-content/uploads/SCM-for-dummies-ipad.jpg" alt="Security Configuration Management For Dummies" /></a>
+	<p><a href="http://www.tripwire.com/scm/?utm_source=sos&utm_medium=sb-bnr&utm_content=pdf&utm_campaign=scm-for-dummies" target="_blank" style="color:#EA7125">Security Configuration Management <br />For Dummies</a></p>
+	<p><a href="http://www.tripwire.com/scm/?utm_source=sos&utm_medium=sb-bnr&utm_content=pdf&utm_campaign=scm-for-dummies" class="btn btn-info" style="background-color:#8db31c;border-color: #8DB31C;" target="_blank">Download Now</a></p>
+</div><section class="w-area box dark"><h6 class="wa-title reverse"><a href="/state-of-security/topics/latest-security-news/" title="Latest Security News">Latest Security News</a></h6>
+<div class="list-posts posts-by-category"><ul class="list-posts posts-by-category"><li class="title-43248" data-views="0" data-date=""><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/french-dark-web-posts-job-ad-for-content-cleaner-to-be-paid-in-stolen-goods/" title="French Dark Web Posts Ad for Content Cleaner to be Paid in Stolen Goods" >French Dark Web Posts Ad for Content Cleaner to be Paid in Stolen Goods</a><span class="metadata metadata-date">Sep 8, 2016</span></li><li class="title-43221" data-views="0" data-date=""><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/seven-online-scammers-go-to-prison-for-international-fraud-conspiracy/" title="Seven Online Scammers Prison Bound for International Fraud Conspiracy" >Seven Online Scammers Prison Bound for International Fraud Conspiracy</a><span class="metadata metadata-date">Sep 8, 2016</span></li><li class="title-43214" data-views="0" data-date=""><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/hutton-hotels-warns-of-payment-card-breach-that-lasted-over-3-years/" title="Hutton Hotel Warns of Payment Card Breach That Lasted Over 3 Years" >Hutton Hotel Warns of Payment Card Breach That Lasted Over 3 Years</a><span class="metadata metadata-date">Sep 7, 2016</span></li><li class="title-43193" data-views="0" data-date=""><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/yelp-will-award-up-to-15k-for-exploits-found-in-new-bug-bounty-program/" title="Yelp Will Award Up to $15K for Exploits Found in Bug Bounty Program" >Yelp Will Award Up to $15K for Exploits Found in Bug Bounty Program</a><span class="metadata metadata-date">Sep 7, 2016</span></li><li class="title-43166" data-views="0" data-date=""><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/mega-breach-strikes-rambler-ru-with-leak-of-nearly-100m-user-records/" title="Mega Breach Strikes Rambler.ru with Leak of Nearly 100M User Records" >Mega Breach Strikes Rambler.ru with Leak of Nearly 100M User Records</a><span class="metadata metadata-date">Sep 6, 2016</span></li></ul></div>
+</section><section class="w-area  tabs" >
+<ul class="tab-nav" >
+<!--<li id="tab-nav-popular"><a href="#popular" title="Popular Posts">Popular</a></li>-->
+<li id="tab-nav-featured"><a href="#featured" title="Featured">Featured</a></li>
+<li id="tab-nav-recent"><a href="#recent" title="Recent Posts">Recent</a></li>
+</ul>
+<!--<div class="tab" id="popular">-->
+<!--[posts_by_popularity show="5" format="image" excerpt="false" show_date="true" ]--><!--[wpp limit=5 thumbnail_width=100 thumbnail_height=70 post_html='<div class="metadata-info grid"><div class="metadata-image">{thumb}</div><div class="metadata-text"><p class="title">{title}<span class="metadata metadata-date">{date}</span></p></div></div>' wpp_start='<div class="list-posts posts-by-popularity">' wpp_end='</div>' post_type='post' freshness=1 range='weekly']-->
+<!--</div>--><!--/.tab-->
+<div class="tab" id="featured">
+<div class="list-posts posts-by-category"><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/security-data-protection/why-technology-automation-is-a-sure-shot-way-of-strengthening-your-security-posture/" title="Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture" ><img src="/state-of-security/wp-content/uploads/thumb_shutterstock_217198141_1024-100x60.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/security-data-protection/why-technology-automation-is-a-sure-shot-way-of-strengthening-your-security-posture/" title="Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture" >Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture</a><span class="metadata metadata-date">Sep 8, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/government/report-claims-national-security-was-put-at-risk-by-the-opm-data-breach/" title="Report claims national security was put at risk by the OPM data breach" ><img src="/state-of-security/wp-content/uploads/opm-lessons-100x60.jpeg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Lessons to learn from the huge OPM data breach" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/government/report-claims-national-security-was-put-at-risk-by-the-opm-data-breach/" title="Report claims national security was put at risk by the OPM data breach" >Report claims national security was put at risk by the OPM data breach</a><span class="metadata metadata-date">Sep 8, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/risk-based-security-for-executives/connecting-security-to-the-business/the-new-mindset-required-for-making-a-dent-in-the-world-of-cybercrime/" title="The New Mindset Required for Making a Dent in the World of Cybercrime" ><img src="/state-of-security/wp-content/uploads/thumb_shutterstock_411956008_1024-100x60.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="The New Mindset Required for Making a Dent in the World of Cybercrime" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/risk-based-security-for-executives/connecting-security-to-the-business/the-new-mindset-required-for-making-a-dent-in-the-world-of-cybercrime/" title="The New Mindset Required for Making a Dent in the World of Cybercrime" >The New Mindset Required for Making a Dent in the World of Cybercrime</a><span class="metadata metadata-date">Sep 7, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/security-awareness/evolution-of-the-camera-society/" title="Evolution of a &amp;#8216;Cameras Are Everywhere&amp;#8217; Society" ><img src="/state-of-security/wp-content/uploads/thumb_shutterstock_79940836_1024-100x60.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Evolution of a &quot;Cameras Are Everywhere&quot; Society" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/security-awareness/evolution-of-the-camera-society/" title="Evolution of a &amp;#8216;Cameras Are Everywhere&amp;#8217; Society" >Evolution of a &#8216;Cameras Are Everywhere&#8217; Society</a><span class="metadata metadata-date">Sep 7, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/security-data-protection/cyber-security/august-2016-the-month-in-ransomware/" title="August 2016: The Month in Ransomware" ><img src="/state-of-security/wp-content/uploads/thumb_shutterstock_404293927_1024-100x60.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="August 2016: The Month in Ransomware" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/security-data-protection/cyber-security/august-2016-the-month-in-ransomware/" title="August 2016: The Month in Ransomware" >August 2016: The Month in Ransomware</a><span class="metadata metadata-date">Sep 6, 2016</span></p></div></div></div>
+</div><!--/.tab-->
+<div class="tab" id="recent">
+<div class="list-posts posts-by-date"><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/security-data-protection/why-technology-automation-is-a-sure-shot-way-of-strengthening-your-security-posture/" title="Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture" ><img src="/state-of-security/wp-content/uploads/thumb_shutterstock_217198141_1024-100x60.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/security-data-protection/why-technology-automation-is-a-sure-shot-way-of-strengthening-your-security-posture/" title="Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture" >Why Technology Automation Is a Sure-Shot Way Of Strengthening Your Security Posture</a><span class="metadata metadata-date">Sep 8, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/latest-security-news/french-dark-web-posts-job-ad-for-content-cleaner-to-be-paid-in-stolen-goods/" title="French Dark Web Posts Ad for Content Cleaner to be Paid in Stolen Goods" ><img src="/state-of-security/wp-content/uploads/NEWS-banner-800x320-v4-100x60.png" class="attachment-thumbnail size-thumbnail wp-post-image" alt="NEWS-banner-800x320-v4" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/french-dark-web-posts-job-ad-for-content-cleaner-to-be-paid-in-stolen-goods/" title="French Dark Web Posts Ad for Content Cleaner to be Paid in Stolen Goods" >French Dark Web Posts Ad for Content Cleaner to be Paid in Stolen Goods</a><span class="metadata metadata-date">Sep 8, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/government/report-claims-national-security-was-put-at-risk-by-the-opm-data-breach/" title="Report claims national security was put at risk by the OPM data breach" ><img src="/state-of-security/wp-content/uploads/opm-lessons-100x60.jpeg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="Lessons to learn from the huge OPM data breach" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/government/report-claims-national-security-was-put-at-risk-by-the-opm-data-breach/" title="Report claims national security was put at risk by the OPM data breach" >Report claims national security was put at risk by the OPM data breach</a><span class="metadata metadata-date">Sep 8, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/latest-security-news/seven-online-scammers-go-to-prison-for-international-fraud-conspiracy/" title="Seven Online Scammers Prison Bound for International Fraud Conspiracy" ><img src="/state-of-security/wp-content/uploads/NEWS-banner-800x320-v4-100x60.png" class="attachment-thumbnail size-thumbnail wp-post-image" alt="NEWS-banner-800x320-v4" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/latest-security-news/seven-online-scammers-go-to-prison-for-international-fraud-conspiracy/" title="Seven Online Scammers Prison Bound for International Fraud Conspiracy" >Seven Online Scammers Prison Bound for International Fraud Conspiracy</a><span class="metadata metadata-date">Sep 8, 2016</span></p></div></div><div class="metadata-info"><div class="metadata-image has-image"><a class="post-image th-img" href="http://www.tripwire.com/state-of-security/risk-based-security-for-executives/connecting-security-to-the-business/the-new-mindset-required-for-making-a-dent-in-the-world-of-cybercrime/" title="The New Mindset Required for Making a Dent in the World of Cybercrime" ><img src="/state-of-security/wp-content/uploads/thumb_shutterstock_411956008_1024-100x60.jpg" class="attachment-thumbnail size-thumbnail wp-post-image" alt="The New Mindset Required for Making a Dent in the World of Cybercrime" /></a></div><div class="metadata-text"><p class="title"><a class="title" href="http://www.tripwire.com/state-of-security/risk-based-security-for-executives/connecting-security-to-the-business/the-new-mindset-required-for-making-a-dent-in-the-world-of-cybercrime/" title="The New Mindset Required for Making a Dent in the World of Cybercrime" >The New Mindset Required for Making a Dent in the World of Cybercrime</a><span class="metadata metadata-date">Sep 7, 2016</span></p></div></div></div>
+</div><!--/.tab-->
+</section><!--/.tabs--><section class="w-area bnr-linkedin">
+<a href="http://bit.ly/1Kb6rne" target="_blank"><img src="http://www.tripwire.com/state-of-security/wp-content/uploads/tripwire-linkedin-group-bnr-300x250v2.jpeg" alt="State of Security LinkedIn Group" /></a>
+</section><a class="twitter-timeline" href="https://twitter.com/TripwireInc" data-widget-id="516676749250134016">Tweets by @TripwireInc</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script><section id="text-667591096" class="w-area wa-side-right widget_text">			<div class="textwidget"><div id="fb-root" class="w-area fb"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=113675545412483&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like-box" data-href="https://www.facebook.com/TripwireInc" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="true"></div></div>
+		</section><section id="categories-128524582" class="w-area wa-side-right widget_categories"><h6 class="wa-title topics "><a href="/state-of-security/topics/" title="Topics">Topics</a></h6>		<ul>
+	<li class="cat-item cat-item-179"><a href="/state-of-security/topics/government/" >Government</a>
+</li>
+	<li class="cat-item cat-item-4215"><a href="/state-of-security/topics/ics-security/" >ICS Security</a>
+</li>
+	<li class="cat-item cat-item-509"><a href="/state-of-security/topics/incident-detection/" >Incident Detection</a>
+</li>
+	<li class="cat-item cat-item-5"><a href="/state-of-security/topics/security-data-protection/" >IT Security and Data Protection</a>
+</li>
+	<li class="cat-item cat-item-1144"><a href="/state-of-security/topics/latest-security-news/" >Latest Security News</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="/state-of-security/topics/off-topic/" title="All the stuff that doesn&#039;t fit anywhere else.">Off Topic</a>
+</li>
+	<li class="cat-item cat-item-57"><a href="/state-of-security/topics/regulatory-compliance/" title="PCI DSS, SOX, HIPAA, NERC CIP, ISO 27001, NIST 800, Other">Regulatory Compliance</a>
+</li>
+	<li class="cat-item cat-item-1143"><a href="/state-of-security/topics/risk-based-security-for-executives/" >Risk-Based Security for Executives</a>
+</li>
+	<li class="cat-item cat-item-760"><a href="/state-of-security/topics/security-awareness/" >Security Awareness</a>
+</li>
+	<li class="cat-item cat-item-1146"><a href="/state-of-security/topics/security-slice-podcast/" >Security Slice</a>
+</li>
+	<li class="cat-item cat-item-1145"><a href="/state-of-security/topics/tripwire-news/" >Tripwire News</a>
+</li>
+	<li class="cat-item cat-item-706"><a href="/state-of-security/topics/vulnerability-management/" >Vulnerability Management</a>
+</li>
+		</ul>
+</section>	</aside>
+						</section><!-- /section -->
+		</section><!-- /container -->
+	</section><!-- /#content -->
+	<!-- footer -->
+<footer id="footer-main" class="main has-top-link has-copyright has-nav">
+	<section class="container">
+		<section class="grid row">
+			<section class="col-left">
+				<div class="colophon"><p><span class="copyright">© 2016 <a title="Tripwire, Inc." href="http://www.tripwire.com/">Tripwire, Inc.</a> All rights reserved.</span></p></div>							</section>
+			<section class="col-right">
+				<!-- nav -->
+				<nav id="nav-foot" class="nav nav-foot"><ul class="nav nav-foot"><li id="nav-featured-articles"><a title="Featured Articles" href="/state-of-security/topics/featured/">Featured Articles</a></li>
+<li id="nav-topics"><a href="/state-of-security/topics/">Topics</a></li>
+<li id="nav-about"><a href="/state-of-security/about/">About</a></li>
+<li id="nav-contributors"><a href="/state-of-security/contributors/">Contributors</a></li>
+<li id="nav-privacy-policy"><a href="http://www.tripwire.com/legal/privacy/">Privacy Policy</a></li>
+<li id="nav-tripwire-com"><a href="http://www.tripwire.com/">Tripwire.com</a></li>
+</ul></nav>								<!-- /nav -->
+					<nav class="nav-social">
+	<ul class="list-inline icons-social icon-30">
+		<li class="list-label">Follow us</li>
+		<li class="icon-social-twitter "><a class="twitter" href="http://twitter.com/TripwireInc" rel="external" title="Twitter">Twitter</a></li>
+		<li class="icon-social-linkedin"><a class="linkedin" href="http://www.linkedin.com/company/9330" rel="external" title="LinkedIn">LinkedIn</a></li>
+		<li class="icon-social-flickr "><a class="flickr" href="http://www.flickr.com/photos/tripwireinc/" rel="external" title="Flickr">Flickr</a></li>
+		<li class="icon-social-youtube "><a class="youtube" href="http://www.youtube.com/user/TripwireInc?feature=mhum" rel="external" title="YouTube">YouTube</a></li>
+		<li class="icon-social-googleplus "><a class="googleplus" href="https://plus.google.com/112356549259894290003" title="Google+">Google+</a></li>
+		<li class="icon-social-slideshare "><a class="slideshare" href="http://www.slideshare.net/Tripwire" title="SlideShare">SlideShare</a></li>
+<li class="icon-social-facebook "><a class="facebook" href="http://facebook.com/TripwireInc" title="Facebook">Facebook</a></li>		<li class="icon-social-blog icon-social-sos "><a class="rss" href="/state-of-security/" title="The State of Security">The State of Security</a></li>
+		<li class="icon-social-rss "><a class="rss" href="/company/news/rss/" title="RSS">RSS</a></li>
+	</ul>
+</nav>			</section>
+			<div id="to-top" class="top-link">
+				<a class="btn" href="#top" title="Back to top"></a>
+			</div>
+		</section>
+	</section>
+</footer><!-- /footer --></section><!-- /.page -->
+<!-- This site is converting visitors into subscribers and customers with OptinMonster - http://optinmonster.com --><div id="om-hnul1b26od-lightbox-holder"></div><script>var hnul1b26od_lightbox,hnul1b26od_lightbox_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){hnul1b26od_lightbox_poll(function(){if(window['om_loaded']){if(!hnul1b26od_lightbox){hnul1b26od_lightbox=new OptinMonsterApp();return hnul1b26od_lightbox.init({u:"5177.257402",staging:0,dev:0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="//a.optnmnstr.com/app/js/api.min.js",o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;hnul1b26od_lightbox=new OptinMonsterApp();hnul1b26od_lightbox.init({u:"5177.257402",staging:0,dev:0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");</script><!-- / OptinMonster --><!-- This site is converting visitors into subscribers and customers with OptinMonster - http://optinmonster.com --><div id="om-kmdrxrz6bm-slide-holder"></div><script>var kmdrxrz6bm_slide,kmdrxrz6bm_slide_poll=function(){var r=0;return function(n,l){clearInterval(r),r=setInterval(n,l)}}();!function(e,t,n){if(e.getElementById(n)){kmdrxrz6bm_slide_poll(function(){if(window['om_loaded']){if(!kmdrxrz6bm_slide){kmdrxrz6bm_slide=new OptinMonsterApp();return kmdrxrz6bm_slide.init({u:"5177.257403",staging:0,dev:0});}}},25);return;}var d=false,o=e.createElement(t);o.id=n,o.src="//a.optnmnstr.com/app/js/api.min.js",o.onload=o.onreadystatechange=function(){if(!d){if(!this.readyState||this.readyState==="loaded"||this.readyState==="complete"){try{d=om_loaded=true;kmdrxrz6bm_slide=new OptinMonsterApp();kmdrxrz6bm_slide.init({u:"5177.257403",staging:0,dev:0});o.onload=o.onreadystatechange=null;}catch(t){}}}};(document.getElementsByTagName("head")[0]||document.documentElement).appendChild(o)}(document,"script","omapi-script");</script><!-- / OptinMonster --><link rel='stylesheet' id='addthis_output-css'  href='http://www.tripwire.com/state-of-security/wp-content/plugins/addthis/css/output.css?ver=4.6.1' media='all' />
+<script type='text/javascript' src='http://www.tripwire.com/state-of-security/wp-content/themes/tw-base/assets/js/base.activation.js?ver=1.9.5&#038;as=1.75'></script>
+<script type='text/javascript' src='http://www.tripwire.com/state-of-security/wp-includes/js/wp-embed.min.js?ver=4.6.1'></script>
+<script type='text/javascript' src='http://www.tripwire.com/state-of-security/wp-includes/js/comment-reply.min.js?ver=4.6.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var embedVars = {"disqusConfig":{"platform":"wordpress@4.6.1","language":""},"disqusIdentifier":"42372 http:\/\/www.tripwire.com\/state-of-security\/?p=42372","disqusShortname":"thestateofsecurity","disqusTitle":"Ruckus Raucous: Finding Security Flaws in Enterprise-Class Hardware","disqusUrl":"http:\/\/www.tripwire.com\/state-of-security\/vulnerability-management\/ruckus-vulnerability\/","options":{"manualSync":false},"postId":"42372"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.tripwire.com/state-of-security/wp-content/plugins/disqus-comment-system/media/js/disqus.js?ver=4.6.1'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var countVars = {"disqusShortname":"thestateofsecurity"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://www.tripwire.com/state-of-security/wp-content/plugins/disqus-comment-system/media/js/count.js?ver=4.6.1'></script>
+	    <script type="text/javascript">var omapi_localized = { ajax: 'http://www.tripwire.com/state-of-security/wp-admin/admin-ajax.php?optin-monster-ajax-route=1', nonce: 'b949546d03' };</script>
+	    <!--wp_footer--><div class="script">
+	<script type="text/javascript">
+window.AIConfig = {};
+window.AIConfig.accountId='tripwire';
+window.AIConfig.mailTextField = ['email_address', 'login_email_address'];
+window.AIConfig.trackAsset = true;
+var protocol = (("https:" == document.location.protocol) ? "https:" : "http:");
+document.write(unescape("%3Cscript src='"+protocol+"//cloud2.insightera.com/gw1/djs' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script>
+	(function() {
+		var cx = '010691751587985000313:0qjxmbjwhqs';
+		var gcse = document.createElement('script');
+		gcse.type = 'text/javascript';
+		gcse.async = true;
+		gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+			'//www.google.com/cse/cse.js?cx=' + cx;
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(gcse, s);
+	})();
+/* Crazy Egg */
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0025/2157.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
+<script type="text/javascript">var google_conversion_id = 1072044469;var google_custom_params = window.google_tag_params;var google_remarketing_only = true;</script><script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script><div><img height="1" width="1" style="border-style:none" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1072044469/?value=0&amp;guid=ON&amp;script=0" /></div></div></body>
+</html>
