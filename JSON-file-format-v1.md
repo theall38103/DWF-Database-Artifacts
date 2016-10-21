@@ -1,4 +1,6 @@
-# JSON File format for DWF Database Artifacts entry
+# JSON File format version 1.x for DWF Database Artifacts entry
+
+This file format is obsolete. Do not use it. This file is for historical purposes only.
 
 # Definition of terms
 
