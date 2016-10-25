@@ -2,6 +2,12 @@
 
 This is the current version in use.
 
+# ChangeLog
+
+2.0 initial version
+
+2.1 added "URL" to DWF AFFECTS (URL for that particular product)
+
 # Definition of terms
 
 ## OPTIONAL
@@ -20,7 +26,7 @@ This is the current version in use.
 
 ```
 {
-  "DATA_VERSION": "2.0",
+  "DATA_VERSION": "2.1",
   "UPDATED": "DATE-TIMESTAMP",
   "SERIAL": "INT",
   "CVE_ID": "CVE-YEAR-NNNNNNN",
@@ -31,7 +37,7 @@ This is the current version in use.
     "jpn": "ここにテキストデータ"
   },
   "DWF": {
-    "DATA_VERSION": "2.0",
+    "DATA_VERSION": "2.1",
     "PROBLEM_TYPE": {
       "DATA_VERSION": "2.0",
       "CWE": "X",
@@ -104,10 +110,11 @@ This is the current version in use.
     },
     "AFFECTS": [
       {
-        "DATA_VERSION": "string",
+        "DATA_VERSION": "2.1",
         "VENDOR": "string",
         "PRODUCT": "string",
         "VERSION": "string",
+        "URL": "string",
         "CPE": "cpe string",
         "SWID": "swid string (XML data with line breaks)",
         "AFFECTED": [
@@ -525,6 +532,10 @@ The problem type, a list of objects in the form of identifier and a value, curre
 ### VERSION
 
 2.0: The version of the product. SUGGESTED
+
+### URL
+
+2.1: URL for the product
 
 ### CPE
 
