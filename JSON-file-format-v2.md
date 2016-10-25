@@ -248,7 +248,7 @@ An example of a minimum file. Please note that the AFFECTS data is not MANDATORY
 
 ```
 {
-  "DATA_VERSION": "2.0",
+  "DATA_VERSION": "2.1",
   "UPDATED": "DATE-TIMESTAMP",
   "SERIAL": "INT",
   "DWF": {
