@@ -659,7 +659,7 @@ Additional documentation on these roles is planned. OPTIONAL
 
 # COMMUNITY
 
-2.0: The community hierarchy is planned ofr future use, most likely guidelines will be issued. OPTIONAL. This can also can include DATA_VERSION.
+2.0: The community hierarchy is planned for future use, most likely guidelines will be issued. OPTIONAL. This can also can include DATA_VERSION.
 
 # EXPERIMENTAL
 
